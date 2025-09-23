@@ -4,6 +4,15 @@ import torch
 
 COMPUTE_CAPABILITIES = {
     # Format: (compute_version, sm_version)
+    "Hopper": [
+        (10, 0),  # GB200, B200 (Data Center)
+        (9, 0),   # GH200, H200, H100
+    ],
+    "Ada Lovelace": [
+        (8, 9),  # L4, L40, RTX 6000 Ada, RTX 5000 Ada, RTX 4500 Ada, RTX 4000 Ada, RTX 2000 Ada
+                 # GeForce RTX 4090, RTX 4080, RTX 4070 Ti, RTX 4070, RTX 4060 Ti, RTX 4060, RTX 4050
+        (8, 7),  # Jetson AGX Orin, Jetson Orin NX, Jetson Orin Nano
+    ],
     "Ampere": [
         (8, 0),  # A100, A40, A30
         (8, 6),  # A10, A16, A2

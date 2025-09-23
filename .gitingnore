@@ -2,3 +2,4 @@ cuda_check
 mvml
 nvml-smi
 nvps
+nvml
