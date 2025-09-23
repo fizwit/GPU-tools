@@ -1,9 +1,9 @@
 # Build Notes
 
-For sites that support LMOD modules.
+For sites that support LMOD modules. Load the Nvida compiler cuDNN
 ```
 ml cuDNN/8.2.2.26-CUDA-11.4.1
  * build cuda_check
  ```
-nvcc -o cuda_check cuda_check.c -lcuda
- ```
+nvcc nvps.c -o nvps -lcuda -lnvidia-ml
+```
