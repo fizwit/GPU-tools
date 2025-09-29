@@ -48,12 +48,14 @@ void
 device_info(int device_num)
 {
     int i;
+    nvmlDevice_t device;
+    nvmlPciInfo_t pci_info;
     nvmlReturn_t result;
     nvmlMemory_t memory;
-    nvmlDevice_t device;
     char pname[256], name[NVML_DEVICE_NAME_BUFFER_SIZE];
+    char serial[NVML_DEVICE_SERIAL_BUFFER_SIZE];
     int major, minor;
-    unsigned int infoCount, temp;
+    unsigned int infoCount, temp, serial_len;
     uid_t uid;
     char username[256];
     nvmlPstates_t pState;
@@ -65,11 +67,22 @@ device_info(int device_num)
         fprintf(stderr, "error: nvmlDeviceGetHandleByIndex: %s\n", nvmlErrorString(result));
         exit(EXIT_FAILURE);
     }
+    if ((result = nvmlDeviceGetPciInfo(device, &pci_info))  != NVML_SUCCESS) {
+        fprintf(stderr, "Failed to get PCI info: %s\n", nvmlErrorString(result));
+       exit(EXIT_FAILURE); 
+    }
+    printf("      \"Bus_ID\": \"%s\",\n", pci_info.busId);
+
     if ((result = nvmlDeviceGetName( device, name, NVML_DEVICE_NAME_BUFFER_SIZE)) != NVML_SUCCESS) {
         fprintf(stderr, "error: Get Driver Model: %s\n", nvmlErrorString(result));
         exit(EXIT_FAILURE);
     }
     printf("      \"Device_Name\": \"%s\",\n", name);
+    if ((result = nvmlDeviceGetSerial(device, serial, serial_len)) != NVML_SUCCESS) {
+        fprintf(stderr, "error: Get Compute Running Processes error: %s\n", nvmlErrorString(result));
+        exit(EXIT_FAILURE);
+    }
+    printf("      \"Serial\": \"%s\",\n", serial);
 
     if ((result = nvmlDeviceGetMemoryInfo(device, &memory))  != NVML_SUCCESS) {
         fprintf(stderr, "error: Get Compute Running Processes error: %s\n", nvmlErrorString(result));
